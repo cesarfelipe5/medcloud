@@ -26,6 +26,7 @@ Medcloud's challenge for Dev Full Stack.
 - AWS RDS MySQL, AWS RDS PostgreSQL or AWS DynamoDB as database.
 - AWS Lambda for serverless architecture.
 - AWS API Gateway or AppSync for managing your back-end.
+- Follow the protoype.
 
 ## What will be evaluated:
 - State management (Redux Saga or React Query).
@@ -41,7 +42,6 @@ Medcloud's challenge for Dev Full Stack.
 - Data Modeling.
 - Code maintainability.
 - Error handling.
-- Follow the protoype.
 
 According to the above criteria, we will evaluate your test in order to proceed to the technical interview. If you have not acceptably achieved what we are proposing above, we will not proceed with the process.
 
