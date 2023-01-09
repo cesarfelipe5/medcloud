@@ -34,7 +34,6 @@ Medcloud's challenge for Dev Full Stack.
 - React Hook Form.
 - Field validation on front-end and back-end (date, required fields, number, max-length).
 - AWS best practices.
-- A cool design.
 - Clean and organized code (naming, component, pages, assets, etc.)
 - Knowledge of patterns (PSRs, design patterns, SOLID).
 - Be consistent and know how to argue your choices.
@@ -42,6 +41,7 @@ Medcloud's challenge for Dev Full Stack.
 - Data Modeling.
 - Code maintainability.
 - Error handling.
+- Follow the protoype.
 
 According to the above criteria, we will evaluate your test in order to proceed to the technical interview. If you have not acceptably achieved what we are proposing above, we will not proceed with the process.
 
