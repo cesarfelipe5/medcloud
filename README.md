@@ -17,7 +17,7 @@ Medcloud's challenge for Dev Full Stack.
 
 ## Goal
 
-- To develop a web application (CRUD) to manage patient registers (Patient's name, birth date, email and address) using a cloud database.
+- To develop a web application (CRUD) to manage patient registers (Patient's name, birth date, email and address) using a cloud database and serverless architecture.
 
 ## Required
 
