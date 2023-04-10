@@ -1,5 +1,6 @@
 export interface IAllPatient {
     current_page: number;
+    search?: string;
 }
 
 export interface IPatient {
@@ -15,5 +16,5 @@ export interface IPatient {
     neighborhood: string | null,
     city: string | null,
     uf: string | null,
-    country: string | null
+    country: string | null;
 }

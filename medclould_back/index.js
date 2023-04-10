@@ -1,3 +1,4 @@
+const serverless = require("serverless-http");
 const express = require('express');
 const cors = require('cors');
 
@@ -11,3 +12,5 @@ app.use('/api/v1', router);
 
 
 app.listen(4000, () => console.log('Aplicação rodando na porta 4000'));
+
+module.exports.handler = serverless(app);

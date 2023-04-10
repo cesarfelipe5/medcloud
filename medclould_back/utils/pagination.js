@@ -5,9 +5,10 @@ const pagination = async (req, tableName) => {
     const paginationData = {};
     const per_page = reqData.per_page || 10;
     const page = reqData.current_page || 1;
+    const searchterm = reqData.search || '';
 
     if (page < 1) {
-        page = 1
+        page = 1;
     };
 
     const offset = (page - 1) * per_page;
@@ -15,7 +16,7 @@ const pagination = async (req, tableName) => {
     return Promise.all([
         db.count('* as count').from(tableName).first(),
 
-        db.select("*").from(tableName).offset(offset).limit(per_page)
+        db.select("*").from(tableName).whereILike('name', `${'%' + searchterm + '%'}`).offset(offset).limit(per_page)
     ]).then(([total, rows]) => {
         const count = total.count;
 
@@ -28,8 +29,8 @@ const pagination = async (req, tableName) => {
         paginationData.from = offset;
         paginationData.data = rows;
 
-        return paginationData
+        return paginationData;
     });
-}
+};
 
-module.exports = { pagination }
+module.exports = { pagination };

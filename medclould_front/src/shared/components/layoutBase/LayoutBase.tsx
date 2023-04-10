@@ -4,7 +4,7 @@ import { ILayoutBase } from './LayoutBase.types';
 
 moment.locale('pt-br');
 
-export const LayoutBase = ({ children, title }: ILayoutBase) => {
+export const LayoutBase = ({ children, title, toolbar }: ILayoutBase) => {
     return (
         <div className='container'>
             <div className='header'>
@@ -16,6 +16,8 @@ export const LayoutBase = ({ children, title }: ILayoutBase) => {
             </div>
 
             <div className='title'>{title}</div>
+
+            {toolbar && toolbar}
 
             {children}
         </div>
