@@ -1,6 +1,6 @@
 import { patientMapper } from "../../mapper";
 import { Api } from "../axios-config";
-import { IAllPatient, IPatient } from "./Patient.types";
+import { IAllPatient, IDeletePatient, IPatient } from "./Patient.types";
 
 const urlBase = '/patient';
 
@@ -43,11 +43,18 @@ const updatePatient = async (): Promise<any> => {
     }
 };
 
-const deletePatient = async (): Promise<any> => {
+const deletePatient = async ({ id }: IDeletePatient): Promise<string> => {
     try {
+        const { data, status } = await Api.delete(`${urlBase}/${id}`);
+
+        if (status === 200) {
+            return data.message;
+        }
+
+        return 'Tente novamente';
 
     } catch (error) {
-
+        return 'Erro ao excluir usuário';
     }
 };
 

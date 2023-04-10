@@ -18,3 +18,7 @@ export interface IPatient {
     uf: string | null,
     country: string | null;
 }
+
+export interface IDeletePatient {
+    id: number,
+}
