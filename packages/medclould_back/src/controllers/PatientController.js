@@ -44,6 +44,7 @@ class PatientController {
             "neighborhood": "required|string|max:50",
             "city": "required|string|max:50",
             "uf": "required|string|max:2",
+            "country": "required|string",
         };
 
         const {
@@ -58,6 +59,7 @@ class PatientController {
             neighborhood,
             uf,
             city,
+            country
         } = req.body;
 
         const dataInsert = {
@@ -71,7 +73,8 @@ class PatientController {
             addressComplement,
             neighborhood,
             uf,
-            city
+            city,
+            country
         };
 
         const insert = () => db.insert(dataInsert).table('patient').then(data =>
@@ -106,6 +109,7 @@ class PatientController {
             "neighborhood": "string|max:50",
             "city": "string|max:50",
             "uf": "string|max:2",
+            "country": "string",
         };
 
         const {
@@ -120,6 +124,7 @@ class PatientController {
             neighborhood,
             uf,
             city,
+            country,
         } = req.body;
 
         const dataUpdate = {};
@@ -129,12 +134,13 @@ class PatientController {
         birthday ? dataUpdate.birthday = birthday : undefined;
         cpf ? dataUpdate.cpf = cpf : undefined;
         postalCode ? dataUpdate.postalCode = postalCode : undefined;
-        address ? dataUpdate.address = dataUpdate : undefined;
+        address ? dataUpdate.address = address : undefined;
         addressNuber ? dataUpdate.addressNuber = addressNuber : undefined;
         addressComplement ? dataUpdate.addressComplement = addressComplement : undefined;
         neighborhood ? dataUpdate.neighborhood = neighborhood : undefined;
         uf ? dataUpdate.uf = uf : undefined;
         city ? dataUpdate.city = city : undefined;
+        country ? dataUpdate.country = country : undefined;
 
         const update = () => db.where({ id }).update(dataUpdate).table('patient').then(data =>
             res.status(200).json({

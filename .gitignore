@@ -2,3 +2,4 @@ node_modules
 medclould_back/node_modules
 medclould_front/node_modules
 medclould_back/.serverless
+packages/medclould_back/.serverless

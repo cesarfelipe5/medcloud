@@ -162,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/medcloudback/dev/1681231438013-2023-04-11T16:43:58.013Z/medcloudback.zip"
+          "S3Key": "serverless/medcloudback/dev/1681240416828-2023-04-11T19:13:36.828Z/medcloudback.zip"
         },
         "Handler": "index.handler",
         "Runtime": "nodejs18.x",
@@ -180,14 +180,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionnukx5P4YPS0YU7Wj01WF43aNuwdFrf1yzu44mrfM": {
+    "ApiLambdaVersionqmNZGo55UPCdupdWsyEPAawYAlCJ5pPez9floc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "3A6vTYKGWEfqnFJsLwP5x2DgmdLMH/FKdpHWvnCjHVA="
+        "CodeSha256": "vOtAbAHRXVdBE9AUtxJ5N5FAG8B8hvsvrknzpBtazck="
       }
     },
     "HttpApi": {
@@ -298,7 +298,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionnukx5P4YPS0YU7Wj01WF43aNuwdFrf1yzu44mrfM"
+        "Ref": "ApiLambdaVersionqmNZGo55UPCdupdWsyEPAawYAlCJ5pPez9floc"
       },
       "Export": {
         "Name": "sls-medcloudback-dev-ApiLambdaFunctionQualifiedArn"

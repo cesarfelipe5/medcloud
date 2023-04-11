@@ -8601,6 +8601,13 @@ serverless-http@^3.2.0:
   resolved "https://registry.yarnpkg.com/serverless-http/-/serverless-http-3.2.0.tgz#68acc7735f7c876733c04f038ee20f31f5ebfc9b"
   integrity sha512-QvSyZXljRLIGqwcJ4xsKJXwkZnAVkse1OajepxfjkBXV0BMvRS5R546Z4kCBI8IygDzkQY0foNPC/rnipaE9pQ==
 
+serverless-plugin-monorepo@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-monorepo/-/serverless-plugin-monorepo-0.11.0.tgz#10462ee64b73a9b708d88e72b1e9710baee8ea35"
+  integrity sha512-9pP45L71+MUfzCcw0/sMo27XB41H3axy6FRL8ewBX1alRKDEzx19jBl+Ut8KTG8siMOxONvGXjc41srQG7cP3g==
+  dependencies:
+    fs-extra "^9.0.1"
+
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"

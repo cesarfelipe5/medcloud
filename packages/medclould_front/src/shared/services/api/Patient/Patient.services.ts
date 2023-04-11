@@ -1,7 +1,7 @@
 import { patientMapper } from "../../mapper";
 import { patientListMapper } from "../../mapper/Patient.mapper";
 import { Api } from "../axios-config";
-import { IAllPatient, IDeletePatient, IPatient, IgetPatientById } from "./Patient.types";
+import { IAllPatient, IDeletePatient, IPatient, IPatientSave, IgetPatientById } from "./Patient.types";
 
 const urlBase = '/patient';
 
@@ -34,7 +34,7 @@ const getPatientById = async ({ id }: IgetPatientById): Promise<IPatient | null>
     }
 };
 
-const createPatient = async (patient: IPatient): Promise<string | null> => {
+const createPatient = async (patient: IPatientSave): Promise<string | null> => {
     try {
         const { data, status } = await Api.post(`${urlBase}`, patient);
 
@@ -48,11 +48,17 @@ const createPatient = async (patient: IPatient): Promise<string | null> => {
     }
 };
 
-const updatePatient = async (): Promise<any> => {
+const updatePatient = async (id: number, patient: IPatientSave): Promise<any> => {
     try {
+        const { data, status } = await Api.put(`${urlBase}/${id}`, patient);
 
+        if (status === 200) {
+            return data.message;
+        }
+
+        return 'Teste novamente';
     } catch (error) {
-
+        return 'Erro ao atualizar o paciente';
     }
 };
 
