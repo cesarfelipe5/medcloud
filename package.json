@@ -1,0 +1,17 @@
+{
+    "name": "medcloud",
+    "version": "1.0.0",
+    "main": "index.js",
+    "private": true,
+    "workspaces": {
+        "packages": [
+            "packages/*"
+        ]
+    },
+    "scripts": {
+        "start_back": "yarn workspace @medcloud/back start",
+        "start_front": "yarn workspace @medcloud/front start",
+        "deploy_back": "yarn workspace @medcloud/back deploy",
+        "deploy_front": "yarn workspace @medcloud/back deploy"
+    }
+}

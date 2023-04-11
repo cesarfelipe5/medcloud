@@ -1,3 +1,4 @@
+node_modules
 medclould_back/node_modules
-medclould_back/.serverless
 medclould_front/node_modules
+medclould_back/.serverless
