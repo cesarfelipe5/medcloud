@@ -1,1 +1,1 @@
-export { LayoutBase } from './LayoutBase'
+export { LayoutBase } from "./LayoutBase";

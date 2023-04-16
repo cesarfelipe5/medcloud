@@ -1,1 +1,1 @@
-export { patientMapper } from './Patient.mapper';
+export { patientMapper } from "./Patient.mapper";

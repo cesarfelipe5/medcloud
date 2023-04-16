@@ -174,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/medcloudback/dev/1681240416828-2023-04-11T19:13:36.828Z/medcloudback.zip"
+                "S3Key": "serverless/medcloudback/dev/1681604687261-2023-04-16T00:24:47.261Z/medcloudback.zip"
               },
               "Handler": "index.handler",
               "Runtime": "nodejs18.x",
@@ -192,14 +192,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionqmNZGo55UPCdupdWsyEPAawYAlCJ5pPez9floc": {
+          "ApiLambdaVersionkcd9UJ0FRgordzeCL77LkxYWfQhX9kmjZ7lMo0zgGQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "vOtAbAHRXVdBE9AUtxJ5N5FAG8B8hvsvrknzpBtazck="
+              "CodeSha256": "JjeJZxWC/KFMpSSJnQGYB13LYsUV6dkSjAzxY6lsIvA="
             }
           },
           "HttpApi": {
@@ -307,7 +307,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionqmNZGo55UPCdupdWsyEPAawYAlCJ5pPez9floc"
+              "Ref": "ApiLambdaVersionkcd9UJ0FRgordzeCL77LkxYWfQhX9kmjZ7lMo0zgGQ"
             },
             "Export": {
               "Name": "sls-medcloudback-dev-ApiLambdaFunctionQualifiedArn"
@@ -452,7 +452,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionqmNZGo55UPCdupdWsyEPAawYAlCJ5pPez9floc"
+        "versionLogicalId": "ApiLambdaVersionkcd9UJ0FRgordzeCL77LkxYWfQhX9kmjZ7lMo0zgGQ"
       }
     },
     "configValidationMode": "warn",
@@ -472,10 +472,10 @@
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "C:\\Users\\estre\\OneDrive\\Área de Trabalho\\medcloud\\packages\\medclould_back\\.serverless\\medcloudback.zip"
+    "artifact": "C:\\Users\\Cesar\\Desktop\\medcloud\\packages\\medclould_back\\.serverless\\medcloudback.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/medcloudback/dev/1681240416828-2023-04-11T19:13:36.828Z",
+    "artifactDirectoryName": "serverless/medcloudback/dev/1681604687261-2023-04-16T00:24:47.261Z",
     "artifact": "medcloudback.zip"
   }
 }

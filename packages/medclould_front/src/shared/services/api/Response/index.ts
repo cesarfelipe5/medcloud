@@ -1,1 +1,1 @@
-export type { IResponsePagination } from './Response.types'
+export type { IDataResponse, IResponsePagination } from "./Response.types";

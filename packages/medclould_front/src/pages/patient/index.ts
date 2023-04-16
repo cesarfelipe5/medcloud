@@ -1,3 +1,2 @@
-export { PatientDetail } from './Patient.detail';
-export { PatientList } from './Patient.list';
-
+export { PatientDetail } from "./Patient.detail";
+export { PatientList } from "./Patient.list";

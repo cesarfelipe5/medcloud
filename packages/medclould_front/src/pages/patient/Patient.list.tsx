@@ -1,177 +1,235 @@
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useMediaQuery, useTheme } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { useCallback, useEffect, useState } from 'react';
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LayoutBase } from "../../shared/components/layoutBase";
 import { LoadingSpinner } from "../../shared/components/loadingSpinner";
-import { Toolbar } from '../../shared/components/toolbar';
-import { ToolbarSearch } from "../../shared/components/toolbarSearch";
-import { PatientServices } from '../../shared/services/api';
-import { IPatient } from '../../shared/services/api/Patient/Patient.types';
-import { INITIAL_USER_TO_DELETE } from "./Patient.constants";
-import { IPatientRow } from './Patient.types';
+import { PatientServices } from "../../shared/services/api";
+import { IPatient } from "../../shared/services/api/Patient/Patient.types";
+import {
+  DEFAULT_ROWS_PER_PAGE,
+  INITIAL_USER_TO_DELETE,
+} from "./Patient.constants";
+import { IPatientRow } from "./Patient.types";
 
 export const PatientList = (): JSX.Element => {
-    const [rows, setRows] = useState<IPatientRow[]>([]);
-    const [search, setSearch] = useState<string>('');
-    const [openDialog, setOpenDialog] = useState(false);
-    const [patientToDelete, setPatientToDelete] = useState<number>(INITIAL_USER_TO_DELETE);
-    const [loading, setLoading] = useState(false);
-    const theme = useTheme();
+  const [rows, setRows] = useState<IPatientRow[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [patientToDelete, setPatientToDelete] = useState<number>(
+    INITIAL_USER_TO_DELETE
+  );
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
+  const [page, setPage] = useState(0);
+  const [totalRows, setTotalRows] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
 
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const theme = useTheme();
 
-    const navigate = useNavigate();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-    const createData = (
-        patient: IPatient
-    ) => ({ id: patient.id, name: patient.name, email: patient.email, birthday: patient.birthday });
+  const navigate = useNavigate();
 
-    const createRows = useCallback(
-        (patientData: IPatient[]) => {
-            const patientFormated = patientData.map(createData);
+  const createData = (patient: IPatient) => ({
+    id: patient.id,
+    name: patient.name,
+    email: patient.email,
+    birthday: patient.birthday,
+  });
 
-            setRows(patientFormated);
-        }, [],
-    );
+  const createRows = useCallback((patientData: IPatient[]) => {
+    const patientFormated = patientData.map(createData);
 
-    const getAllPatients = useCallback(
-        async () => {
-            setLoading(true);
+    setRows(patientFormated);
+  }, []);
 
-            const patients = await PatientServices.getAllPatient({ current_page: 1, search });
+  const getAllPatients = useCallback(async () => {
+    setLoading(true);
 
-            createRows(patients);
+    const patients = await PatientServices.getAllPatient({
+      current_page: 1,
+      // per_page: rowsPerPage,
+      search,
+    });
 
-            setLoading(false);
-        }, [createRows, search],
-    );
+    createRows(patients);
 
-    const handleClickOpen = (id: number) => () => {
-        setPatientToDelete(id);
+    setLoading(false);
+  }, [createRows, search]);
 
-        setOpenDialog(true);
-    };
+  const handleClickOpen = (id: number) => () => {
+    setPatientToDelete(id);
 
-    const handleClose = () => {
-        setPatientToDelete(INITIAL_USER_TO_DELETE);
+    setOpenDialog(true);
+  };
 
-        setOpenDialog(false);
-    };
+  const handleClose = () => {
+    setPatientToDelete(INITIAL_USER_TO_DELETE);
 
-    const confirmDelete = async () => {
-        if (patientToDelete) {
-            const message = await PatientServices.deletePatient({ id: patientToDelete });
+    setOpenDialog(false);
+  };
 
-            <Alert severity="success" > {message}</Alert >;
+  const confirmDelete = async () => {
+    setLoadingDelete(true);
 
-            getAllPatients();
+    if (patientToDelete) {
+      const message = await PatientServices.deletePatient({
+        id: patientToDelete,
+      });
 
-            handleClose();
+      <Alert severity="success"> {message}</Alert>;
 
-            return;
-        }
+      getAllPatients();
 
-        <Alert severity="warning">Paciente seleconado inválido</Alert>;
-    };
+      handleClose();
 
-    const onChangeText = (searchTerm: string) => setSearch(searchTerm);
+      setLoadingDelete(false);
 
-    useEffect(() => {
-        getAllPatients();
-    }, [getAllPatients]);
+      return;
+    }
 
-    return (
-        <>
-            <LayoutBase
-                title="Pacientes"
-                toolbar={<Toolbar showButton onClickButton={() => navigate('/patient/detail/new')} />} >
+    setLoadingDelete(false);
 
-                <ToolbarSearch value={search} onChangeText={onChangeText} />
+    <Alert severity="warning">Paciente seleconado inválido</Alert>;
+  };
 
-                <LoadingSpinner loading={loading}>
-                    <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Nome</TableCell>
-                                    <TableCell align="left">E-mail</TableCell>
-                                    <TableCell align="left">Data de nascimento</TableCell>
-                                    <TableCell align="left" />
-                                </TableRow>
-                            </TableHead>
+  const onChangeTextSeach = (searchTerm: string) => setSearch(searchTerm);
 
-                            <TableBody>
-                                {rows.map(row => (
-                                    <TableRow
-                                        key={row.name}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
+  const onClickButton = (): void => navigate("/patient/detail/new");
 
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
+  useEffect(() => {
+    getAllPatients();
+  }, [getAllPatients]);
 
-                                        <TableCell align="left">{row.email}</TableCell>
-                                        <TableCell align="left">{row.birthday}</TableCell>
-                                        <TableCell align="left" >
-                                            <div>
-                                                <IconButton color="primary" onClick={() => navigate(`/patient/detail/${row.id}`)}>
-                                                    <EditOutlinedIcon color="secondary" />
-                                                </IconButton>
+  return (
+    <>
+      <LayoutBase
+        title="Pacientes"
+        showNewButton
+        onClickButton={onClickButton}
+        showSearchBar
+        onSearch={onChangeTextSeach}
+        searchTerm={search}
+      >
+        <LoadingSpinner loading={loading}>
+          <Box paddingX={2} paddingBottom={2} borderRadius={0} boxShadow="none">
+            <TableContainer component={Paper} style={{ borderRadius: 8 }}>
+              <Table sx={{ minWidth: 650 }}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Nome</TableCell>
+                    <TableCell align="left">E-mail</TableCell>
+                    <TableCell align="left">Data de nascimento</TableCell>
+                    <TableCell align="left" />
+                  </TableRow>
+                </TableHead>
 
-                                                <IconButton color="primary" onClick={handleClickOpen(row.id)}>
-                                                    <DeleteOutlineOutlinedIcon color="secondary" />
-                                                </IconButton>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </LoadingSpinner>
-            </LayoutBase>
+                <TableBody>
+                  {rows.map((row: IPatientRow) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
 
-            <Dialog
-                fullScreen={fullScreen}
-                open={openDialog}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title">
+                      <TableCell align="left">{row.email}</TableCell>
+                      <TableCell align="left">{row.birthday}</TableCell>
+                      <TableCell align="right">
+                        <>
+                          <IconButton
+                            color="primary"
+                            onClick={() =>
+                              navigate(`/patient/detail/${row.id}`)
+                            }
+                          >
+                            <EditOutlinedIcon color="secondary" />
+                          </IconButton>
 
-                <DialogTitle id="responsive-dialog-title">
-                    Excluir paciente
-                </DialogTitle>
+                          <IconButton
+                            color="primary"
+                            onClick={handleClickOpen(row.id)}
+                          >
+                            <DeleteOutlineOutlinedIcon color="secondary" />
+                          </IconButton>
+                        </>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                <DialogContent>
-                    <DialogContentText>
-                        Você não terá mais acesso ao paciente, você quer mesmo exclui-lo?
-                    </DialogContentText>
-                </DialogContent>
+            {/* <TablePagination
+            labelRowsPerPage="Resultados por página"
+            rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+            component="div"
+            count={totalRows}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(event: unknown, newPage: number) =>
+              console.log("newPagenewPagenewPage", newPage)
+            }
+            onRowsPerPageChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              console.log("eventeventevent", event)
+            }
+          /> */}
+          </Box>
+        </LoadingSpinner>
+      </LayoutBase>
 
-                <DialogActions>
-                    <Button variant="contained" autoFocus onClick={handleClose}>
-                        Cancelar
-                    </Button>
+      <Dialog
+        fullScreen={fullScreen}
+        open={openDialog}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">Excluir paciente</DialogTitle>
 
-                    <Button variant="contained" onClick={confirmDelete} autoFocus color="error">
-                        Sim, excluir
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
-    );
-}
+        <DialogContent>
+          <DialogContentText>
+            Você não terá mais acesso ao paciente, você quer mesmo exclui-lo?
+          </DialogContentText>
+        </DialogContent>
 
+        <DialogActions>
+          <Button variant="contained" autoFocus onClick={handleClose}>
+            Cancelar
+          </Button>
 
-
-
+          <LoadingButton
+            variant="contained"
+            onClick={confirmDelete}
+            color="error"
+            loading={loadingDelete}
+          >
+            Sim, excluir
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};

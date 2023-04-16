@@ -1,5 +1,4 @@
 export interface IToolbar {
-    showButton?: boolean;
-    onClickButton?: () => void;
+  showButton?: boolean;
+  onClickButton?: () => void;
 }
-
