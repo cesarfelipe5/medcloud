@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField, useTheme } from "@mui/material";
 import { useField } from "@unform/core";
 import { FC, useEffect, useState } from "react";
 import { TCustomTextField } from "./CustomTextField.types";
@@ -6,6 +6,8 @@ import { TCustomTextField } from "./CustomTextField.types";
 export const CustomTextField: FC<TCustomTextField> = ({ name, ...rest }) => {
   const { fieldName, registerField, defaultValue, error, clearError } =
     useField(name);
+
+  const theme = useTheme();
 
   const [value, setValue] = useState(defaultValue || "");
 

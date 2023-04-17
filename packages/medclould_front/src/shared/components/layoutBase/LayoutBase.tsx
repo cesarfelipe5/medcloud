@@ -2,8 +2,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { Box, Button, Paper } from "@mui/material";
 import moment from "moment";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/medcloud.svg";
 import { ToolbarSearch } from "../toolbarSearch";
+import { styles } from "./LayoutBase.styles";
 import { TLayoutBase } from "./LayoutBase.types";
 
 moment.locale("pt-br");
@@ -14,9 +16,14 @@ export const LayoutBase: FC<TLayoutBase> = ({
   showNewButton,
   showSearchBar,
   searchTerm,
-  onClickButton,
+  onClickNewButton,
   onSearch,
+  onClickSearch,
 }) => {
+  const navigate = useNavigate();
+
+  const handlePressImage = () => navigate("/patient");
+
   return (
     <Box display="flex" flexDirection="column">
       <Box
@@ -28,7 +35,12 @@ export const LayoutBase: FC<TLayoutBase> = ({
         borderColor="secondary.light"
       >
         <Box display="flex" flex={1} alignItems="flex-start" padding={2}>
-          <img src={logo} alt="medcloud" height={30} />
+          <img
+            src={logo}
+            alt="medcloud"
+            height={30}
+            onClick={handlePressImage}
+          />
         </Box>
 
         <Box
@@ -61,14 +73,9 @@ export const LayoutBase: FC<TLayoutBase> = ({
             variant="contained"
             disableElevation
             startIcon={<AddIcon />}
-            onClick={onClickButton}
+            onClick={onClickNewButton}
             size="small"
-            style={{
-              paddingRight: 30,
-              paddingLeft: 30,
-              borderRadius: 4,
-              textTransform: "none",
-            }}
+            style={styles.button}
           >
             Novo
           </Button>
@@ -86,12 +93,16 @@ export const LayoutBase: FC<TLayoutBase> = ({
         borderRadius={0}
         minHeight={70}
       >
-        <Box fontSize={25} color="secondary.main" boxShadow="none">
+        <Box fontSize={25} color="secondary.dark" boxShadow="none">
           {title}
         </Box>
 
         {showSearchBar && (
-          <ToolbarSearch value={searchTerm} onChangeText={onSearch} />
+          <ToolbarSearch
+            value={searchTerm}
+            onChangeText={onSearch}
+            onClickSearch={onClickSearch}
+          />
         )}
       </Box>
 

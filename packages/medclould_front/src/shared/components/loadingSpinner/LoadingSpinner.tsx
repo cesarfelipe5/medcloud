@@ -1,6 +1,5 @@
 import { LinearProgress, Stack } from "@mui/material";
 import { ILoadingSpinner } from "./LoadingSpinner.types";
-// import "./loadingSpinner.css";
 
 export const LoadingSpinner = ({
   children,

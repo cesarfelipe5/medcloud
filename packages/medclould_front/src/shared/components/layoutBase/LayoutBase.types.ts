@@ -1,29 +1,19 @@
 import { ReactNode } from "react";
 
-// export type TLayoutBase = {
-//   children: ReactNode;
-//   title: string;
-// } & (
-//   | { showNewButton?: false }
-//   | {
-//       showNewButton: true;
-//       onClickButton?: () => void;
-//     }
-// );
-
 export type TLayoutBase = {
   children: ReactNode;
   title: string;
   searchTerm?: string;
-  onClickButton?: () => void;
+  onClickNewButton?: () => void;
   onSearch?: (searchTerm: string) => void;
+  onClickSearch?: () => void;
 } & (
   | {
       showNewButton?: false;
     }
   | {
       showNewButton: true;
-      onClickButton: () => void;
+      onClickNewButton: () => void;
     }
 ) &
   (
@@ -34,5 +24,6 @@ export type TLayoutBase = {
         showSearchBar: true;
         onSearch: (searchTerm: string) => void;
         searchTerm: string;
+        onClickSearch: () => void;
       }
   );

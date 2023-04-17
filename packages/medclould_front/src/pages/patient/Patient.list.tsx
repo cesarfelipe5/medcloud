@@ -21,17 +21,18 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import moment from "moment";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LayoutBase } from "../../shared/components/layoutBase";
 import { LoadingSpinner } from "../../shared/components/loadingSpinner";
 import { PatientServices } from "../../shared/services/api";
 import { IPatient } from "../../shared/services/api/Patient/Patient.types";
-import {
-  DEFAULT_ROWS_PER_PAGE,
-  INITIAL_USER_TO_DELETE,
-} from "./Patient.constants";
+import { INITIAL_USER_TO_DELETE } from "./Patient.constants";
+import { styles } from "./Patient.list.styles";
 import { IPatientRow } from "./Patient.types";
+
+moment.locale("pt-br");
 
 export const PatientList = (): JSX.Element => {
   const [rows, setRows] = useState<IPatientRow[]>([]);
@@ -40,9 +41,7 @@ export const PatientList = (): JSX.Element => {
   const [patientToDelete, setPatientToDelete] = useState<number>(
     INITIAL_USER_TO_DELETE
   );
-  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE);
-  const [page, setPage] = useState(0);
-  const [totalRows, setTotalRows] = useState(0);
+  const [focused, setFocused] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
@@ -70,7 +69,6 @@ export const PatientList = (): JSX.Element => {
 
     const patients = await PatientServices.getAllPatient({
       current_page: 1,
-      // per_page: rowsPerPage,
       search,
     });
 
@@ -120,29 +118,36 @@ export const PatientList = (): JSX.Element => {
   const onClickButton = (): void => navigate("/patient/detail/new");
 
   useEffect(() => {
-    getAllPatients();
-  }, [getAllPatients]);
+    setFocused(true);
+
+    if (focused) {
+      getAllPatients();
+    }
+
+    return () => setFocused(false);
+  }, [focused, getAllPatients]);
 
   return (
     <>
       <LayoutBase
         title="Pacientes"
         showNewButton
-        onClickButton={onClickButton}
+        onClickNewButton={onClickButton}
         showSearchBar
         onSearch={onChangeTextSeach}
         searchTerm={search}
+        onClickSearch={getAllPatients}
       >
         <LoadingSpinner loading={loading}>
-          <Box paddingX={2} paddingBottom={2} borderRadius={0} boxShadow="none">
-            <TableContainer component={Paper} style={{ borderRadius: 8 }}>
+          <Box padding={2} borderRadius={0} boxShadow="none">
+            <TableContainer component={Paper} style={styles.tableContainer}>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
                   <TableRow>
                     <TableCell>Nome</TableCell>
                     <TableCell align="left">E-mail</TableCell>
                     <TableCell align="left">Data de nascimento</TableCell>
-                    <TableCell align="left" />
+                    <TableCell align="right" />
                   </TableRow>
                 </TableHead>
 
@@ -150,14 +155,20 @@ export const PatientList = (): JSX.Element => {
                   {rows.map((row: IPatientRow) => (
                     <TableRow
                       key={row.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                        },
+                      }}
                     >
                       <TableCell component="th" scope="row">
                         {row.name}
                       </TableCell>
 
                       <TableCell align="left">{row.email}</TableCell>
-                      <TableCell align="left">{row.birthday}</TableCell>
+                      <TableCell align="left">
+                        {moment(row.birthday).format("DD/MM/YYYY")}
+                      </TableCell>
                       <TableCell align="right">
                         <>
                           <IconButton
@@ -182,21 +193,6 @@ export const PatientList = (): JSX.Element => {
                 </TableBody>
               </Table>
             </TableContainer>
-
-            {/* <TablePagination
-            labelRowsPerPage="Resultados por página"
-            rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-            component="div"
-            count={totalRows}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={(event: unknown, newPage: number) =>
-              console.log("newPagenewPagenewPage", newPage)
-            }
-            onRowsPerPageChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              console.log("eventeventevent", event)
-            }
-          /> */}
           </Box>
         </LoadingSpinner>
       </LayoutBase>

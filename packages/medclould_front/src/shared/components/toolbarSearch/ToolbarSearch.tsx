@@ -1,9 +1,14 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, Paper, TextField } from "@mui/material";
 import { FC } from "react";
+import { styles } from "./ToolbarSearch.styles";
 import { IToolbarSearch } from "./ToolbarSearch.types";
 
-export const ToolbarSearch: FC<IToolbarSearch> = ({ value, onChangeText }) => {
+export const ToolbarSearch: FC<IToolbarSearch> = ({
+  value,
+  onChangeText,
+  onClickSearch,
+}) => {
   return (
     <>
       <Box
@@ -21,7 +26,6 @@ export const ToolbarSearch: FC<IToolbarSearch> = ({ value, onChangeText }) => {
           value={value}
           size="small"
           onChange={(e) => onChangeText?.(e.target.value)}
-          // style={{ backgroundColor: "red" }}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -38,7 +42,8 @@ export const ToolbarSearch: FC<IToolbarSearch> = ({ value, onChangeText }) => {
             color="primary"
             size="small"
             disableElevation
-            style={{ paddingRight: 30, paddingLeft: 30 }}
+            style={styles.button}
+            onClick={onClickSearch}
           >
             Buscar
           </Button>
